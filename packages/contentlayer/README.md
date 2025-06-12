@@ -66,6 +66,38 @@ Since **contentlayer2** doesn't have any breaking API changes, hopefully this is
 
    Otherwise, see below for common compatibility issues. ❤️‍🩹
 
+## Compatibility with Next.js 15 + Turbopack
+
+If you're running your project in development mode with the `--turbopack` flag, the `.contentlayer` folder might not be generated correctly. This can break Contentlayer integration and cause missing features.
+
+To fix this while still benefiting from Turbopack, you can run Contentlayer and Next.js in parallel using [`npm-run-all`](https://www.npmjs.com/package/npm-run-all).
+
+### Steps to resolve
+
+1. Install `npm-run-all` as a dev dependency:
+
+   ```bash
+   npm i -D npm-run-all
+   ```
+2. Update your `package.json` scripts:
+
+```json
+{
+  "scripts": {
+    "dev:contentlayer": "contentlayer2 dev",
+    "dev:next": "next dev --turbopack",
+    "dev": "run-p dev:*"
+  }
+}
+```
+
+3. Now, you can run:
+
+```bash
+npm run dev
+```
+This will start both Contentlayer and Next.js together — fully compatible with Turbopack. 👌
+
 #### Upgrading incompatible Remark and Rehype packages
 
 While **contentlayer2** is API compatible with **contentlayer**, it has been updated to use the latest ([**v11+**](https://github.com/unifiedjs/unified/releases/tag/11.0.0)) [Unified](https://unifiedjs.com/) toolchain. If your configuration includes [Remark](https://remark.js.org/) or [Rehype](https://github.com/rehypejs/rehype) plugins, you'll likely need to upgrade them.
